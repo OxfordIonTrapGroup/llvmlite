@@ -518,3 +518,8 @@ class IRBuilder(object):
                                     failordering, name=name)
         self._insert(inst)
         return inst
+
+    def landingpad(self, typ, personality, name='', cleanup=False):
+        inst = instructions.LandingPadInstr(self.block, typ, personality, name, cleanup)
+        self._insert(inst)
+        return inst
