@@ -578,7 +578,7 @@ class CmpXchg(Instruction):
               file=buf)
 
 
-class _LandingPadClause:
+class _LandingPadClause(object):
     def __init__(self, value):
         self.value = value
 
