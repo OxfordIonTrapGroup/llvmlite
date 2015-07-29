@@ -10,6 +10,15 @@ def initialize():
     ffi.lib.LLVMPY_InitializeCore()
 
 
+def initialize_all_targets():
+    ffi.lib.LLVMPY_InitializeAllTargetInfos()
+    ffi.lib.LLVMPY_InitializeAllTargets()
+    ffi.lib.LLVMPY_InitializeAllTargetMCs()
+
+def initialize_all_asmprinters():
+    ffi.lib.LLVMPY_InitializeAllAsmPrinters()
+
+
 def initialize_native_target():
     """
     Initialize the native (host) target.  Necessary before doing any
