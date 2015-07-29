@@ -30,10 +30,10 @@ if os.environ.get('READTHEDOCS', None) == 'True':
 import versioneer
 
 versioneer.VCS = 'git'
-versioneer.versionfile_source = 'llvmlite/_version.py'
-versioneer.versionfile_build = 'llvmlite/_version.py'
+versioneer.versionfile_source = 'llvmlite_artiq/_version.py'
+versioneer.versionfile_build = 'llvmlite_artiq/_version.py'
 versioneer.tag_prefix = 'v' # tags are like v1.2.0
-versioneer.parentdir_prefix = 'llvmlite-' # dirname like 'myproject-1.2.0'
+versioneer.parentdir_prefix = 'llvmlite_artiq-' # dirname like 'myproject-1.2.0'
 
 
 here_dir = os.path.dirname(os.path.abspath(__file__))
@@ -74,7 +74,7 @@ class LlvmliteBuildExt(build_ext):
         # included in binary builds, not source builds.
         from llvmlite.utils import get_library_files
         self.distribution.package_data = {
-            "llvmlite.binding": get_library_files(),
+            "llvmlite_artiq.binding": get_library_files(),
         }
 
 
@@ -84,7 +84,7 @@ class LlvmliteInstall(install):
     def run(self):
         from llvmlite.utils import get_library_files
         self.distribution.package_data = {
-            "llvmlite.binding": get_library_files(),
+            "llvmlite_artiq.binding": get_library_files(),
         }
         install.run(self)
 
@@ -164,18 +164,18 @@ ext_stub = Extension(name="llvmlite.binding._stub",
                      sources=["llvmlite/binding/_stub.c"])
 
 
-packages = ['llvmlite',
-            'llvmlite.binding',
-            'llvmlite.ir',
-            'llvmlite.llvmpy',
-            'llvmlite.tests',
+packages = ['llvmlite_artiq',
+            'llvmlite_artiq.binding',
+            'llvmlite_artiq.ir',
+            'llvmlite_artiq.llvmpy',
+            'llvmlite_artiq.tests',
             ]
 
 install_requires = []
 if sys.version_info < (3, 4):
     install_requires.append('enum34')
 
-setup(name='llvmlite',
+setup(name='llvmlite_artiq',
       description="lightweight wrapper around basic LLVM functionality",
       version=versioneer.get_version(),
       classifiers=[
@@ -189,6 +189,7 @@ setup(name='llvmlite',
         "Topic :: Software Development :: Code Generators",
         "Topic :: Software Development :: Compilers",
       ],
+      package_dir={"llvmlite_artiq" : "llvmlite"},
       # Include the separately-compiled shared library
       author="Continuum Analytics, Inc.",
       author_email="numba-users@continuum.io",
