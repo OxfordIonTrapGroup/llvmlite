@@ -94,7 +94,7 @@ class CallInstr(Instruction):
         """Alias for llvmpy"""
         return self.callee
 
-    def descr(self, buf):
+    def _descr(self, buf, add_metadata):
         args = ', '.join('{0} {1}'.format(a.type, a.get_reference())
                          for a in self.args)
         fnty = self.callee.type
@@ -107,8 +107,11 @@ class CallInstr(Instruction):
             callee=callee_ref,
             args=args,
             attributes=''.join([" " + attr for attr in self.attributes]),
-            metadata=self._stringify_metatdata(),
+            metadata=self._stringify_metatdata() if add_metadata else "",
             ), file=buf)
+
+    def descr(self, buf):
+        self._descr(buf, add_metadata=True)
 
 
 class InvokeInstr(CallInstr):
@@ -121,7 +124,7 @@ class InvokeInstr(CallInstr):
         self.unwind_to = unwind_to
 
     def descr(self, buf):
-        super(InvokeInstr, self).descr(buf)
+        super(InvokeInstr, self)._descr(buf, add_metadata=False)
         print("      to label {} unwind label {}".format(
             self.normal_to.get_reference(),
             self.unwind_to.get_reference()
