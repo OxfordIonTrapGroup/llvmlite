@@ -95,7 +95,10 @@ class Constant(ConstOpMixin):
         self.constant = constant
 
     def __str__(self):
-        return '{0} {1}'.format(self.type, self.get_reference())
+        if isinstance(self.type, types.MetaData) and self.constant is None:
+            return "null"
+        else:
+            return '{0} {1}'.format(self.type, self.get_reference())
 
     def get_reference(self):
         if isinstance(self.constant, bytearray):
