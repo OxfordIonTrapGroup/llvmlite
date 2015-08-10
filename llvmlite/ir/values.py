@@ -241,8 +241,13 @@ class MDValue(Value):
         return len(self.operands)
 
     def descr(self, buf):
-        operands = ', '.join("{0} {1}".format(op.type, op.get_reference())
-                             for op in self.operands)
+        def get_op(op):
+            if isinstance(op.type, types.MetaData) and isinstance(op, Constant) and \
+                    op.constant == None:
+                return "null"
+            else:
+                return "{0} {1}".format(op.type, op.get_reference())
+        operands = ', '.join(get_op(op) for op in self.operands)
         print("metadata !{{ {operands} }}".format(operands=operands), file=buf)
 
     def get_reference(self):
