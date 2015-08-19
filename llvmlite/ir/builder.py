@@ -61,6 +61,7 @@ class IRBuilder(object):
     def __init__(self, block=None):
         self._block = block
         self._anchor = len(block.instructions) if block else 0
+        self.debug_metadata = None
 
     @property
     def block(self):
@@ -183,6 +184,8 @@ class IRBuilder(object):
         self.position_at_end(bbend)
 
     def _insert(self, instr):
+        if self.debug_metadata is not None and 'dbg' not in instr.metadata:
+            instr.metadata['dbg'] = self.debug_metadata
         self._block.instructions.insert(self._anchor, instr)
         self._anchor += 1
 
