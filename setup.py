@@ -2,6 +2,7 @@ try:
     from setuptools import setup, Extension
     # Required for compatibility with pip (issue #177)
     from setuptools.command.install import install
+    from setuptools.command.bdist_egg import bdist_egg
 except ImportError:
     from distutils.core import setup, Extension
     from distutils.command.install import install
@@ -94,6 +95,17 @@ class LlvmliteInstall(install):
         self.install_libbase = self.install_platlib
         self.install_lib = self.install_platlib
 
+class LlvmliteBdistEgg(bdist_egg):
+    # bdist_egg is subclassed so that it runs build_ext in order to build and
+    # include the llvmlite shared library.
+    # This is needed when llvmlite_artiq is installed automatically as a
+    # dependency of another package since only bdist_egg is called in that case
+    # and not build_ext.
+    def run(self):
+        self.call_command('build_ext')
+        bdist_egg.run(self)
+
+
 class LlvmliteClean(clean):
     """Custom clean command to tidy up the project root."""
     def run(self):
@@ -141,6 +153,7 @@ cmdclass.update({'build': LlvmliteBuild,
                  'build_ext': LlvmliteBuildExt,
                  'install': LlvmliteInstall,
                  'clean': LlvmliteClean,
+                 'bdist_egg': LlvmliteBdistEgg,
                  })
 
 if bdist_wheel:
