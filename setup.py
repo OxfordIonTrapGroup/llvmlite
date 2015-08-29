@@ -3,6 +3,7 @@ try:
     from setuptools.command.build_py import build_py as build
     from setuptools.command.build_ext import build_ext
     from setuptools.command.install import install
+    from setuptools.command.bdist_egg import bdist_egg
 except ImportError:
     from distutils.core import setup, Extension
     from distutils.command.build import build
@@ -73,10 +74,17 @@ class LlvmliteInstall(install):
         }
         install.run(self)
 
+class LlvmliteBdistEgg(bdist_egg):
+
+    def run(self):
+        self.call_command('build_ext')
+        bdist_egg.run(self)
+
 
 cmdclass.update({'build': LlvmliteBuild,
                  'build_ext': LlvmliteBuildExt,
                  'install': LlvmliteInstall,
+                 'bdist_egg': LlvmliteBdistEgg,
                  })
 
 packages = ['llvmlite_artiq',
