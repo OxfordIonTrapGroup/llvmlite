@@ -451,7 +451,7 @@ class Function(GlobalValue):
 
 
 class ArgumentAttributes(AttributeSet):
-    _known = frozenset(['nocapture', 'sret'])  # TODO
+    _known = frozenset(['nocapture', 'sret', 'byval'])  # TODO
 
 
 class Argument(Value):
