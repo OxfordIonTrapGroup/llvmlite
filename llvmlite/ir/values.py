@@ -8,7 +8,7 @@ from __future__ import print_function, absolute_import
 import string
 
 from ..six import StringIO
-from . import types
+from . import types, _utils
 
 _VALID_CHARS = (frozenset(map(ord, string.ascii_letters)) |
                 frozenset(map(ord, string.digits)) |
@@ -136,15 +136,13 @@ class Constant(ConstOpMixin):
 class Value(object):
     name_prefix = '%'
     deduplicate_name = True
-    nested_scope = False
 
     def __init__(self, parent, type, name):
         assert parent is not None
         assert isinstance(type, types.Type)
         self.parent = parent
         self.type = type
-        pscope = self.parent.scope
-        self.scope = pscope.get_child() if self.nested_scope else pscope
+        self.scope = self.parent.scope
         self._name = None
         self.name = name
 
@@ -169,9 +167,8 @@ class Value(object):
     @name.setter
     def name(self, name):
         if self.deduplicate_name:
-            name = self.scope.deduplicate(name)
-
-        self.scope.register(name)
+            name = self.parent.scope.deduplicate(name)
+        self.parent.scope.register(name)
         self._name = name
 
     def get_reference(self):
@@ -370,12 +367,12 @@ class Function(GlobalValue):
     """Represent a LLVM Function but does uses a Module as parent.
     Global Values are stored as a set of dependencies (attribute `depends`).
     """
-    nested_scope = True
 
     def __init__(self, module, ftype, name):
         assert isinstance(ftype, types.Type)
         super(Function, self).__init__(module, ftype.as_pointer(), name=name)
         self.ftype = ftype
+        self.scope = _utils.NameScope()
         self.blocks = []
         self.attributes = FunctionAttributes()
         self.args = tuple([Argument(self, i, t)
@@ -487,6 +484,7 @@ class Block(Value):
 
     def __init__(self, parent, name=''):
         super(Block, self).__init__(parent, types.LabelType(), name=name)
+        self.scope = parent.scope
         self.instructions = []
         self.terminator = None
 

@@ -6,18 +6,12 @@ class DuplicatedNameError(NameError):
 
 
 class NameScope(object):
-    def __init__(self, parent=None):
-        self.parent = parent
+    def __init__(self):
         self._useset = set([''])
         self._basenamemap = {}
 
     def is_used(self, name):
-        if name in self._useset:
-            return True
-        elif self.parent and self.parent.is_used(name):
-            return True
-        else:
-            return False
+        return name in self._useset
 
     def register(self, name):
         assert name, "name is empty"
