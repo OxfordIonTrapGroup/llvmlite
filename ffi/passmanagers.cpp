@@ -79,6 +79,12 @@ LLVMPY_AddFunctionInliningPass(LLVMPassManagerRef PM, int Threshold)
 }
 
 API_EXPORT(void)
+LLVMPY_AddGlobalOptimizerPass(LLVMPassManagerRef PM)
+{
+    LLVMAddGlobalOptimizerPass(PM);
+}
+
+API_EXPORT(void)
 LLVMPY_AddGlobalDCEPass(LLVMPassManagerRef PM)
 {
     LLVMAddGlobalDCEPass(PM);

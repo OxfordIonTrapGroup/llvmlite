@@ -33,6 +33,9 @@ class PassManager(ffi.ObjectRef):
     def add_global_dce_pass(self):
         ffi.lib.LLVMPY_AddGlobalDCEPass(self)
 
+    def add_global_optimizer_pass(self):
+        ffi.lib.LLVMPY_AddGlobalOptimizerPass(self)
+
     def add_ipsccp_pass(self):
         ffi.lib.LLVMPY_AddIPSCCPPass(self)
 
@@ -124,6 +127,7 @@ ffi.lib.LLVMPY_AddDeadArgEliminationPass.argtypes = [ffi.LLVMPassManagerRef]
 ffi.lib.LLVMPY_AddFunctionAttrsPass.argtypes = [ffi.LLVMPassManagerRef]
 ffi.lib.LLVMPY_AddFunctionInliningPass.argtypes = [ffi.LLVMPassManagerRef, c_int]
 ffi.lib.LLVMPY_AddGlobalDCEPass.argtypes = [ffi.LLVMPassManagerRef]
+ffi.lib.LLVMPY_AddGlobalOptimizerPass.argtypes = [ffi.LLVMPassManagerRef]
 ffi.lib.LLVMPY_AddIPSCCPPass.argtypes = [ffi.LLVMPassManagerRef]
 
 ffi.lib.LLVMPY_AddDeadCodeEliminationPass.argtypes = [ffi.LLVMPassManagerRef]
