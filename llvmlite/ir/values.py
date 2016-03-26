@@ -371,6 +371,7 @@ class Function(GlobalValue):
     def __init__(self, module, ftype, name):
         assert isinstance(ftype, types.Type)
         super(Function, self).__init__(module, ftype.as_pointer(), name=name)
+        self.scope = _utils.NameScope()
         self.ftype = ftype
         self.scope = _utils.NameScope()
         self.blocks = []
