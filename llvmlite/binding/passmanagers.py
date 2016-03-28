@@ -60,6 +60,12 @@ class PassManager(ffi.ObjectRef):
     def add_sroa_pass(self):
         ffi.lib.LLVMPY_AddSROAPass(self)
 
+    def add_type_based_alias_analysis_pass(self):
+        ffi.lib.LLVMPY_AddTypeBasedAliasAnalysisPass(self)
+
+    def add_basic_alias_analysis_pass(self):
+        ffi.lib.LLVMPY_AddBasicAliasAnalysisPass(self)
+
 
 class ModulePassManager(PassManager):
 
@@ -137,3 +143,5 @@ ffi.lib.LLVMPY_AddInstructionCombiningPass.argtypes = [ffi.LLVMPassManagerRef]
 ffi.lib.LLVMPY_AddLICMPass.argtypes = [ffi.LLVMPassManagerRef]
 ffi.lib.LLVMPY_AddSCCPPass.argtypes = [ffi.LLVMPassManagerRef]
 ffi.lib.LLVMPY_AddSROAPass.argtypes = [ffi.LLVMPassManagerRef]
+ffi.lib.LLVMPY_AddTypeBasedAliasAnalysisPass.argtypes = [ffi.LLVMPassManagerRef]
+ffi.lib.LLVMPY_AddBasicAliasAnalysisPass.argtypes = [ffi.LLVMPassManagerRef]

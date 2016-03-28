@@ -138,4 +138,16 @@ LLVMPY_AddSROAPass(LLVMPassManagerRef PM)
     unwrap(PM)->add(createSROAPass());
 }
 
+API_EXPORT(void)
+LLVMPY_AddTypeBasedAliasAnalysisPass(LLVMPassManagerRef PM)
+{
+    LLVMAddTypeBasedAliasAnalysisPass(PM);
+}
+
+API_EXPORT(void)
+LLVMPY_AddBasicAliasAnalysisPass(LLVMPassManagerRef PM)
+{
+    LLVMAddBasicAliasAnalysisPass(PM);
+}
+
 } // end extern "C"
