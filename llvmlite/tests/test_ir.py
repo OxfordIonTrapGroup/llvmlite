@@ -675,14 +675,15 @@ class TestBuildInstructions(TestBase):
         tp_g = ir.FunctionType(dbl, (int32,), var_arg=True)
         f = ir.Function(builder.function.module, tp_f, 'f')
         g = ir.Function(builder.function.module, tp_g, 'g')
-        builder.call(f, (a, b), 'res_f')
+        res_f = builder.call(f, (a, b), 'res_f')
+        res_f.metadata['tbaa'] = builder.module.add_metadata([])
         builder.call(g, (b, a), 'res_g')
         builder.call(f, (a, b), 'res_f_fast', cconv='fastcc')
         res_f_readonly = builder.call(f, (a, b), 'res_f_readonly')
         res_f_readonly.attributes.add('readonly')
         self.check_block(block, """\
             my_block:
-                %"res_f" = call float (i32, i32)* @"f"(i32 %".1", i32 %".2")
+                %"res_f" = call float (i32, i32)* @"f"(i32 %".1", i32 %".2"), !tbaa !0
                 %"res_g" = call double (i32, ...)* @"g"(i32 %".2", i32 %".1")
                 %"res_f_fast" = call fastcc float (i32, i32)* @"f"(i32 %".1", i32 %".2")
                 %"res_f_readonly" = call float (i32, i32)* @"f"(i32 %".1", i32 %".2") readonly
@@ -696,11 +697,12 @@ class TestBuildInstructions(TestBase):
         f = ir.Function(builder.function.module, tp_f, 'f')
         bb_normal = builder.function.append_basic_block(name='normal')
         bb_unwind = builder.function.append_basic_block(name='unwind')
-        builder.invoke(f, (a, b), bb_normal, bb_unwind, 'res_f')
+        res_f = builder.invoke(f, (a, b), bb_normal, bb_unwind, 'res_f')
+        res_f.metadata['tbaa'] = builder.module.add_metadata([])
         self.check_block(block, """\
             my_block:
                 %"res_f" = invoke float (i32, i32)* @"f"(i32 %".1", i32 %".2")
-                    to label %"normal" unwind label %"unwind"
+                    to label %"normal" unwind label %"unwind", !tbaa !0
             """)
 
     def test_landingpad(self):

@@ -125,9 +125,10 @@ class InvokeInstr(CallInstr):
 
     def descr(self, buf):
         super(InvokeInstr, self)._descr(buf, add_metadata=False)
-        print("      to label {} unwind label {}".format(
+        print("      to label {} unwind label {}{metadata}".format(
             self.normal_to.get_reference(),
-            self.unwind_to.get_reference()
+            self.unwind_to.get_reference(),
+            metadata=self._stringify_metatdata()
             ), file=buf)
 
 
