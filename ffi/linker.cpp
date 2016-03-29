@@ -10,8 +10,7 @@ LLVMPY_LinkModules(LLVMModuleRef Dest, LLVMModuleRef Src, unsigned Mode,
 {
     using namespace llvm;
     std::string errorstring;
-    bool failed = Linker::LinkModules(unwrap(Dest), unwrap(Src), Mode,
-                                      &errorstring);
+    bool failed = Linker::LinkModules(unwrap(Dest), unwrap(Src));
     if (failed) {
         *Err = LLVMPY_CreateString(errorstring.c_str());
     }

@@ -4,7 +4,6 @@ from . import ffi, targets
 
 
 # Just check these weren't optimized out of the DLL.
-ffi.lib.LLVMPY_LinkInJIT
 ffi.lib.LLVMPY_LinkInMCJIT
 
 

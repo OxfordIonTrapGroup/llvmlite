@@ -7,11 +7,6 @@
 extern "C" {
 
 API_EXPORT(void)
-LLVMPY_LinkInJIT() {
-    LLVMLinkInJIT();
-}
-
-API_EXPORT(void)
 LLVMPY_LinkInMCJIT() {
     LLVMLinkInMCJIT();
 }
@@ -67,11 +62,10 @@ create_execution_engine(LLVMModuleRef M,
 {
     LLVMExecutionEngineRef ee = nullptr;
 
-    llvm::EngineBuilder eb(llvm::unwrap(M));
+    llvm::EngineBuilder eb(std::unique_ptr<llvm::Module>(llvm::unwrap(M)));
     std::string err;
     eb.setErrorStr(&err);
     eb.setEngineKind(llvm::EngineKind::JIT);
-    eb.setUseMCJIT(useMCJIT);
 
     /* EngineBuilder::create loads the current process symbols */
     llvm::ExecutionEngine *engine = eb.create(llvm::unwrap(TM));
