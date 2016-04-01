@@ -246,6 +246,9 @@ class TargetMachine(ffi.ObjectRef):
         """
         ffi.lib.LLVMPY_AddAnalysisPasses(self, pm)
 
+    def set_verbose(self, verbose):
+        ffi.lib.LLVMPY_SetTargetMachineAsmVerbosity(self, verbose)
+
     def emit_object(self, module):
         """
         Represent the module as a code object, suitable for use with
@@ -365,6 +368,9 @@ ffi.lib.LLVMPY_DisposeTargetMachine.argtypes = [ffi.LLVMTargetMachineRef]
 
 ffi.lib.LLVMPY_GetTargetMachineTriple.argtypes = [ffi.LLVMTargetMachineRef,
                                                   POINTER(c_char_p)]
+
+ffi.lib.LLVMPY_SetTargetMachineAsmVerbosity.argtypes = [ffi.LLVMTargetMachineRef,
+                                                        c_int]
 
 ffi.lib.LLVMPY_AddAnalysisPasses.argtypes = [
     ffi.LLVMTargetMachineRef,

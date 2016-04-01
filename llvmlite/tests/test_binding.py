@@ -632,6 +632,7 @@ class JITWithTMTestMixin(JITTestMixin):
         target_machine = self.target_machine()
         mod = self.module()
         ee = self.jit(mod, target_machine)
+        target_machine.set_verbose(True)
         raw_asm = target_machine.emit_assembly(mod)
         self.assertIn("sum", raw_asm)
 
