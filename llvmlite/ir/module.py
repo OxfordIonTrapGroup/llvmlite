@@ -31,6 +31,17 @@ class Module(object):
             md = self._metadatacache[key]
         return md
 
+    def add_debug_info(self, kind, operands, is_distinct):
+        n = len(self.metadata)
+        operands = tuple((key, operands[key]) for key in operands)
+        key = (kind, operands, is_distinct)
+        if key not in self._metadatacache:
+            di = values.DIValue(self, is_distinct, kind, operands, name=str(n))
+            self._metadatacache[key] = di
+        else:
+            di = self._metadatacache[key]
+        return di
+
     def add_named_metadata(self, name):
         nmd = values.NamedMetaData(self)
         self.namedmetadata[name] = nmd
