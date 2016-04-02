@@ -14,13 +14,15 @@ from ._utils import _StrCaching, _StringReferenceCaching, _HasMetadata
 
 _VALID_CHARS = (frozenset(map(ord, string.ascii_letters)) |
                 frozenset(map(ord, string.digits)) |
-                frozenset('._-$'))
+                frozenset(map(ord, ' !#$%&\'()*+,-./:;<=>?@[]^_`{|}~')))
 
 
 def _escape_string(text, _map={}):
     """
     Escape the given bytestring for safe use as a LLVM array constant.
     """
+    if isinstance(text, str):
+        text = text.encode('utf-8')
     assert isinstance(text, (bytes, bytearray))
 
     if not _map:
@@ -258,7 +260,7 @@ class MetaDataString(NamedValue):
         buf += (self.get_reference(), "\n")
 
     def _get_reference(self):
-        return '!"{0}"'.format(self.string)
+        return '!"{0}"'.format(_escape_string(self.string))
 
     _to_string = _get_reference
 
