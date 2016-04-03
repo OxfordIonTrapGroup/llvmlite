@@ -289,7 +289,7 @@ class CompareInstr(Instruction):
 
     def descr(self, buf):
         buf.append("{0} {1} {2} {3}, {4} {5}\n".format(
-            self.OPNAME,
+            self.opname,
             self.op,
             self.operands[0].type,
             self.operands[0].get_reference(),
