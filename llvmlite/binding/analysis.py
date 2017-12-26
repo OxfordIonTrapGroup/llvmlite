@@ -6,7 +6,7 @@ from __future__ import absolute_import, print_function
 
 from ctypes import POINTER, c_char_p, c_int
 
-from llvmlite import ir
+from .. import ir
 from . import ffi
 from .module import parse_assembly
 
