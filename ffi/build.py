@@ -104,18 +104,20 @@ def main_posix(kind, library_ext):
             )
         raise RuntimeError(msg)
 
+    llvm_config_args = ["--ignore-libllvm"]
+
     # Get LLVM information for building
-    libs = run_llvm_config(llvm_config, "--system-libs --libs all".split())
+    libs = run_llvm_config(llvm_config, [*llvm_config_args, "--system-libs", "--libs", "all"])
     # Normalize whitespace (trim newlines)
     os.environ['LLVM_LIBS'] = ' '.join(libs.split())
 
-    cxxflags = run_llvm_config(llvm_config, ["--cxxflags"])
+    cxxflags = run_llvm_config(llvm_config, [*llvm_config_args, "--cxxflags"])
     # on OSX cxxflags has null bytes at the end of the string, remove them
     cxxflags = cxxflags.replace('\0', '')
     cxxflags = cxxflags.split() + ['-fno-rtti', '-g']
     os.environ['LLVM_CXXFLAGS'] = ' '.join(cxxflags)
 
-    ldflags = run_llvm_config(llvm_config, ["--ldflags"])
+    ldflags = run_llvm_config(llvm_config, [*llvm_config_args, "--ldflags"])
     os.environ['LLVM_LDFLAGS'] = ldflags.strip()
     # static link libstdc++ for portability
     if int(os.environ.get('LLVMLITE_CXX_STATIC_LINK', 0)):
