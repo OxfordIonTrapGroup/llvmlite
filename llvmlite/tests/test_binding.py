@@ -13,9 +13,9 @@ import sys
 import unittest
 from contextlib import contextmanager
 
-from llvmlite import six, ir
-from llvmlite import binding as llvm
-from llvmlite.binding import ffi
+from .. import six, ir
+from .. import binding as llvm
+from ..binding import ffi
 from . import TestCase
 
 

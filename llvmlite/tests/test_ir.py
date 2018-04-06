@@ -13,8 +13,8 @@ import textwrap
 import unittest
 
 from . import TestCase
-from llvmlite import ir
-from llvmlite import binding as llvm
+from .. import ir
+from .. import binding as llvm
 
 
 int1 = ir.IntType(1)

@@ -13,8 +13,8 @@ class TestMisc(TestCase):
         """
         Sanity-check llvmpy APIs import correctly.
         """
-        from llvmlite.llvmpy.core import Constant, Type, Builder
-        from llvmlite.llvmpy.passes import create_pass_manager_builder
+        from ..llvmpy.core import Constant, Type, Builder
+        from ..llvmpy.passes import create_pass_manager_builder
 
 
 if __name__ == '__main__':

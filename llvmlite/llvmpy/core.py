@@ -1,7 +1,7 @@
 import itertools
 
-from llvmlite import ir
-from llvmlite import binding as llvm
+from .. import ir
+from .. import binding as llvm
 
 CallOrInvokeInstruction = ir.CallInstr
 

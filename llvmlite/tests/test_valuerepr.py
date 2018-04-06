@@ -3,7 +3,7 @@ from __future__ import print_function, absolute_import
 import math
 import unittest
 
-from llvmlite.ir import (
+from ..ir import (
     Constant, FloatType, DoubleType, LiteralStructType, IntType,
     ArrayType)
 from . import TestCase
