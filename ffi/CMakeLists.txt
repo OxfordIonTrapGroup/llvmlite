@@ -22,6 +22,9 @@ add_library(llvmlite SHARED assembly.cpp bitcode.cpp core.cpp initfini.cpp
             module.cpp value.cpp executionengine.cpp transforms.cpp
             passmanagers.cpp targets.cpp dylib.cpp linker.cpp object_file.cpp)
 
+# Compatibility with LLVM built as a dylib
+list(REMOVE_ITEM LLVM_AVAILABLE_LIBS LTO LLVM)
+
 # Find the libraries that correspond to the LLVM components
 # that we wish to use
 # llvm_map_components_to_libnames(llvm_libs support core irreader)
