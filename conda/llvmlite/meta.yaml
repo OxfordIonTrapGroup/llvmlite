@@ -15,7 +15,7 @@ requirements:
   build:
     - python 3.8*
     # On channel https://anaconda.org/numba/
-    - llvmdev 3.7*
+    - llvmdev
     - enum34         [py27]
   run:
     - python 3.8*
